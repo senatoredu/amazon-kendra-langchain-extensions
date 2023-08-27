@@ -30,13 +30,16 @@ def build_chain():
       accepts = "application/json"
 
       def transform_input(self, prompt: str, model_kwargs: dict) -> bytes:
-          input_str = json.dumps({"inputs": 
-                                  [[
-                                    #{"role": "system", "content": ""},
-                                    {"role": "user", "content": prompt},
-                                  ]],
-                                  **model_kwargs
-                                  })
+          input_str = json.dumps({
+    "inputs":  
+      [
+        [
+         #{"role": "system", "content": "Always answer with Haiku"},
+         {"role": "user", "content": prompt },
+        ]   
+      ],
+   "parameters":{"max_new_tokens":4096, "top_p":0.9, "temperature":0.6}})
+            
           print(input_str)
           return input_str.encode('utf-8')
       
@@ -50,7 +53,7 @@ def build_chain():
   llm=SagemakerEndpoint(
           endpoint_name=endpoint_name, 
           region_name=region, 
-          model_kwargs={"max_new_tokens": 1000, "top_p": 0.9,"temperature":0.6},
+          model_kwargs={"max_new_tokens": 4096, "top_p": 0.9,"temperature":0.6},
           endpoint_kwargs={"CustomAttributes":"accept_eula=true"},
           content_handler=content_handler,
       )
