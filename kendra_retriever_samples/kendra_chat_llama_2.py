@@ -34,7 +34,6 @@ def build_chain():
     "inputs":  
       [
         [
-         #{"role": "system", "content": "Always answer with Haiku"},
          {"role": "user", "content": prompt },
         ]   
       ],
